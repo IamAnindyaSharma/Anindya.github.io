@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Agents: bid evaluation and job search | Anindya Sharma</title>
+<meta name="description" content="Two AI agents I built with Claude: one that evaluates bid documents against criteria, and one that runs a truthful, approval-gated job-application workflow.">
+<meta name="theme-color" content="#0b0d10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>
+(function () {
+  var d = document, r = d.documentElement;
+  r.classList.add('js');
+
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved) r.setAttribute('data-theme', saved);
+  } catch (e) {}
+
+  d.addEventListener('DOMContentLoaded', function () {
+    /* theme toggle */
+    var btn = d.getElementById('theme');
+    function paint() {
+      if (btn) btn.textContent = r.getAttribute('data-theme') === 'light' ? '\u263E' : '\u2600';
+    }
+    if (btn) {
+      paint();
+      btn.addEventListener('click', function () {
+        var next = r.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        r.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        paint();
+      });
+    }
+
+    /* scroll reveal */
+    var items = d.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    } else {
+      items.forEach(function (el) { el.classList.add('in'); });
+    }
+
+    /* reading progress bar */
+    var bar = d.querySelector('.progress');
+    if (bar) {
+      var update = function () {
+        var h = r.scrollHeight - r.clientHeight;
+        bar.style.width = (h > 0 ? (r.scrollTop / h) * 100 : 0) + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+
+    /* rotating word in hero */
+    var rot = d.getElementById('rot');
+    if (rot && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var words = ['product', 'analytics', 'AI'], i = 0;
+      setInterval(function () {
+        rot.style.opacity = 0;
+        setTimeout(function () {
+          i = (i + 1) % words.length;
+          rot.textContent = words[i];
+          rot.style.opacity = 1;
+        }, 250);
+      }, 2200);
+    }
+  });
+})();
+
+</script>
+</head>
+<body>
+<div class="progress"></div>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><i></i>Anindya Sharma</a>
+    <ul>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><button class="toggle" id="theme" aria-label="Toggle light and dark theme">&#9728;</button></li>
+    </ul>
+  </div>
+</header>
+
+<main class="case">
+  <div class="case-hero">
+    <div class="blob b1"></div>
+    <div class="wrap">
+      <div class="label">Applied AI &middot; Built and in use</div>
+      <h1>AI agents: <span class="grad">evaluation and job search</span></h1>
+      <p class="lead" style="font-size:1.12rem;max-width:660px">Two agents I built with Claude to take over repetitive, document-heavy work, while keeping a human in charge of every decision that matters.</p>
+      <div class="chips"><span class="chip"><b>Platform</b>Claude</span><span class="chip"><b>Focus</b>Workflow automation, guardrails</span><span class="chip"><b>Skills</b>Agent design, context design, scoping</span></div>
+      <div class="callout"><b>Summary.</b> I designed and built a bid-evaluation agent and a job-application agent. Each reads documents, applies defined rules, drafts structured output and stops for human approval before anything leaves the system.</div>
+    </div>
+  </div>
+  <div class="wrap">
+
+    <section class="reveal">
+      <h2><em>01</em>Why agents, not prompts</h2>
+      <p>Both problems were the same shape: a repetitive, document-heavy workflow with clear rules, where a human makes the final call. A single chat prompt can answer a question; an agent can work through the whole workflow. I treated each agent like a product: a defined user, a job to be done, guardrails and a clear hand-off point.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>02</em>Agent 1: Bid evaluation</h2>
+      <p><b>The job:</b> read bid and tender documents, check each response against the evaluation criteria, and produce a structured assessment a reviewer can verify quickly.</p><div class="flow"><div class="step"><small>STEP 1</small>Ingest bid documents</div><div class="step"><small>STEP 2</small>Map to evaluation criteria</div><div class="step"><small>STEP 3</small>Flag gaps and deviations</div><div class="step"><small>STEP 4</small>Draft reviewer summary</div></div><p>The agent does the reading and cross-checking; the reviewer keeps the judgement and the sign-off.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>03</em>Agent 2: Job search and applications</h2>
+      <p><b>The job:</b> turn a job posting into a tailored, truthful application without losing hours on each one.</p><div class="flow"><div class="step"><small>STEP 1</small>Read the posting</div><div class="step"><small>STEP 2</small>Pick the best-fit CV</div><div class="step"><small>STEP 3</small>Tailor it truthfully</div><div class="step"><small>STEP 4</small>Draft application for approval</div></div><p>It works from screenshots, links, PDFs or pasted text, and never submits anything until I approve it.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>04</em>How I built them</h2>
+      <p>Both agents run on Claude. The build was mostly product work rather than code:</p><div class="hyp"><div class="h"><i>CONTEXT</i><p>Gave each agent structured background: the criteria, my CVs and standing answers, and what good output looks like.</p></div><div class="h"><i>TASK</i><p>Wrote clear, step-by-step task instructions with explicit output formats.</p></div><div class="h"><i>ACCESS</i><p>Connected only what each workflow needs: a working folder and email.</p></div><div class="h"><i>GUARD</i><p>Built in approval gates, so nothing is sent or submitted without a human yes.</p></div></div>
+    </section>
+
+    <section class="reveal">
+      <h2><em>05</em>Design choices</h2>
+      <div class="two"><div class="box good"><h3>What I prioritised</h3><ul><li><b>Truthfulness:</b> the job agent tailors emphasis, never invents experience</li><li><b>Human in the loop</b> at every irreversible step</li><li><b>Least access:</b> each agent only touches what its job needs</li><li><b>Verifiable output:</b> summaries that point back to the source</li></ul></div><div class="box fix"><h3>What I deliberately avoided</h3><ul><li>Fully autonomous sending or submission</li><li>Broad inbox or file access "just in case"</li><li>Opaque scores without the reasoning behind them</li></ul></div></div>
+    </section>
+
+    <section class="reveal">
+      <h2><em>06</em>What I learned</h2>
+      <ul><li>Most of the quality comes from context and instructions, not the model</li><li>Approval gates make people trust and actually use an agent</li><li>Scoping an agent is a product decision: who it serves, and where it must stop</li></ul>
+    </section>
+
+    <section class="reveal">
+      <h2>What this project shows</h2>
+      <ul><li>Turning a manual workflow into a scoped, reliable AI product</li><li>Designing guardrails and approval points, not just prompts</li><li>Shipping applied AI that I actually use</li></ul>
+      <a class="back" href="index.html#work">&larr; Back to all work</a>
+    </section>
+  </div>
+</main>
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Anindya Sharma</span>
+    <a href="mailto:anindyasharma.dem2024@iimu.ac.in">anindyasharma.dem2024@iimu.ac.in</a>
+  </div>
+</footer>
+</body>
+</html>
