@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CustoMate: AI for customs clearance | Anindya Sharma</title>
+<meta name="description" content="An AI-powered product concept to cut delays, errors and compliance risk in customs clearance and trade documentation.">
+<meta name="theme-color" content="#0b0d10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>
+(function () {
+  var d = document, r = d.documentElement;
+  r.classList.add('js');
+
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved) r.setAttribute('data-theme', saved);
+  } catch (e) {}
+
+  d.addEventListener('DOMContentLoaded', function () {
+    /* theme toggle */
+    var btn = d.getElementById('theme');
+    function paint() {
+      if (btn) btn.textContent = r.getAttribute('data-theme') === 'light' ? '\u263E' : '\u2600';
+    }
+    if (btn) {
+      paint();
+      btn.addEventListener('click', function () {
+        var next = r.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        r.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        paint();
+      });
+    }
+
+    /* scroll reveal */
+    var items = d.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    } else {
+      items.forEach(function (el) { el.classList.add('in'); });
+    }
+
+    /* reading progress bar */
+    var bar = d.querySelector('.progress');
+    if (bar) {
+      var update = function () {
+        var h = r.scrollHeight - r.clientHeight;
+        bar.style.width = (h > 0 ? (r.scrollTop / h) * 100 : 0) + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+
+    /* rotating word in hero */
+    var rot = d.getElementById('rot');
+    if (rot && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var words = ['product', 'analytics', 'AI'], i = 0;
+      setInterval(function () {
+        rot.style.opacity = 0;
+        setTimeout(function () {
+          i = (i + 1) % words.length;
+          rot.textContent = words[i];
+          rot.style.opacity = 1;
+        }, 250);
+      }, 2200);
+    }
+  });
+})();
+
+</script>
+</head>
+<body>
+<div class="progress"></div>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><i></i>Anindya Sharma</a>
+    <ul>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><button class="toggle" id="theme" aria-label="Toggle light and dark theme">&#9728;</button></li>
+    </ul>
+  </div>
+</header>
+
+<main class="case">
+  <div class="case-hero">
+    <div class="blob b1"></div>
+    <div class="wrap">
+      <div class="label">Product concept &middot; B2B &middot; AI</div>
+      <h1>CustoMate: <span class="grad">AI for customs clearance</span></h1>
+      <p class="lead" style="font-size:1.12rem;max-width:660px">An AI-powered product concept to cut delays, errors and compliance risk in customs clearance and trade documentation.</p>
+      <div class="chips"><span class="chip"><b>Domain</b>B2B trade / logistics</span><span class="chip"><b>Focus</b>0-to-1 product design</span><span class="chip"><b>Skills</b>Research, personas, BMC, roadmap, pricing, GTM</span></div>
+      <div class="callout"><b>Summary.</b> Consignments get stuck at customs because of documentation errors, wrong HS codes and fast-changing rules. I designed CustoMate, a platform that automates documentation, validates compliance and helps businesses clear goods faster.</div>
+    </div>
+  </div>
+  <div class="wrap">
+
+    <section class="reveal">
+      <h2><em>01</em>Problem space</h2>
+      <p>Through research I found that many consignments get stuck in customs clearance because of documentation errors, incorrect HS codes and constantly changing regulations. A single export consignment needs several documents, and businesses struggle to keep up with the regulatory complexity.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>02</em>Target users and personas</h2>
+      <ul><li>Importers and exporters running SMEs</li><li>Freight forwarders and logistics partners</li><li>Supply-chain and customs compliance professionals</li></ul><p>For each persona I mapped background, goals, frustrations, buying motivations and daily challenges, so the product is built around real needs rather than assumptions.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>03</em>Business model and value</h2>
+      <p>CustoMate creates value by reducing delays, lowering compliance risk, saving operational cost and improving confidence in customs decisions. I mapped this into a full Business Model Canvas: partners, activities, resources, segments, revenue streams and cost structure.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>04</em>Product flow and user journey</h2>
+      <div class="flow"><div class="step"><small>STEP 1</small>Onboard and upload</div><div class="step"><small>STEP 2</small>Intelligent query search</div><div class="step"><small>STEP 3</small>Verify and check compliance</div><div class="step"><small>STEP 4</small>Collaborate and get support</div></div><p>The aim was to make a complex, regulation-heavy process feel simple and guided.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>05</em>Roadmap and differentiation</h2>
+      <p>A phased roadmap from MVP to advanced features:</p><ul><li>OCR and NLP-based document parsing</li><li>Intelligent search and query resolution</li><li>Automated compliance checks</li><li>ERP integrations and real-time regulatory updates</li><li>Analytics dashboards</li></ul><p>Differentiators: AI-driven query resolution, multi-language support, end-to-end automation, seamless integrations and real-time compliance intelligence.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>06</em>Metrics, pricing and go-to-market</h2>
+      <div class="metrics"><div class="metric"><b>North Star</b><span>A single measure of value delivered to users</span></div><div class="metric"><b>Searches per user</b><span>Depth of engagement with the core feature</span></div><div class="metric"><b>Result confidence rate</b><span>How much users trust the answers</span></div></div><p>Pricing: <b>freemium</b>, <b>individual</b> and <b>enterprise</b> plans. The go-to-market plan covered target industries, positioning, acquisition channels, sales motion and KPIs.</p>
+    </section>
+
+    <section class="reveal">
+      <h2>What this project shows</h2>
+      <p>I can take a complex, regulation-heavy B2B problem, break it into user needs, and design a scalable AI product that balances usability, technology and business impact.</p>
+      <a class="back" href="index.html#work">&larr; Back to all work</a>
+    </section>
+  </div>
+</main>
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Anindya Sharma</span>
+    <a href="mailto:anindyasharma.dem2024@iimu.ac.in">anindyasharma.dem2024@iimu.ac.in</a>
+  </div>
+</footer>
+</body>
+</html>

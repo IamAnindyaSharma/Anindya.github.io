@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EmoSphere: a safe space for wellness | Anindya Sharma</title>
+<meta name="description" content="A community-first social platform for young professionals who look successful on the outside but struggle silently with anxiety, burnout and loneliness.">
+<meta name="theme-color" content="#0b0d10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>
+(function () {
+  var d = document, r = d.documentElement;
+  r.classList.add('js');
+
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved) r.setAttribute('data-theme', saved);
+  } catch (e) {}
+
+  d.addEventListener('DOMContentLoaded', function () {
+    /* theme toggle */
+    var btn = d.getElementById('theme');
+    function paint() {
+      if (btn) btn.textContent = r.getAttribute('data-theme') === 'light' ? '\u263E' : '\u2600';
+    }
+    if (btn) {
+      paint();
+      btn.addEventListener('click', function () {
+        var next = r.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        r.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        paint();
+      });
+    }
+
+    /* scroll reveal */
+    var items = d.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    } else {
+      items.forEach(function (el) { el.classList.add('in'); });
+    }
+
+    /* reading progress bar */
+    var bar = d.querySelector('.progress');
+    if (bar) {
+      var update = function () {
+        var h = r.scrollHeight - r.clientHeight;
+        bar.style.width = (h > 0 ? (r.scrollTop / h) * 100 : 0) + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+
+    /* rotating word in hero */
+    var rot = d.getElementById('rot');
+    if (rot && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var words = ['product', 'analytics', 'AI'], i = 0;
+      setInterval(function () {
+        rot.style.opacity = 0;
+        setTimeout(function () {
+          i = (i + 1) % words.length;
+          rot.textContent = words[i];
+          rot.style.opacity = 1;
+        }, 250);
+      }, 2200);
+    }
+  });
+})();
+
+</script>
+</head>
+<body>
+<div class="progress"></div>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><i></i>Anindya Sharma</a>
+    <ul>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><button class="toggle" id="theme" aria-label="Toggle light and dark theme">&#9728;</button></li>
+    </ul>
+  </div>
+</header>
+
+<main class="case">
+  <div class="case-hero">
+    <div class="blob b1"></div>
+    <div class="wrap">
+      <div class="label">Product design &middot; Consumer social</div>
+      <h1>EmoSphere: <span class="grad">a safe space for wellness</span></h1>
+      <p class="lead" style="font-size:1.12rem;max-width:660px">A community-first social platform for young professionals who look successful on the outside but struggle silently with anxiety, burnout and loneliness.</p>
+      <div class="chips"><span class="chip"><b>Domain</b>Mental wellness / social</span><span class="chip"><b>Focus</b>0-to-1, MVP scoping, cold start</span><span class="chip"><b>Skills</b>Storytelling, personas, journeys, metrics, monetisation</span></div>
+      <div class="callout"><b>Summary.</b> Ambitious young professionals often lack safe emotional spaces, not success. EmoSphere is an emotionally safe, non-clinical community where people can share, vent, listen and reflect without judgement.</div>
+    </div>
+  </div>
+  <div class="wrap">
+
+    <section class="reveal">
+      <h2><em>01</em>Story-first discovery</h2>
+      <p>I began with a narrative around Kunal, a fictional but realistic high-performing tech professional. His story surfaced the core insight: people feel pressure to perform, hesitate to seek therapy because of stigma or cost, and feel isolated despite being constantly online.</p><p>Existing wellness apps often feel clinical or demand too much energy, while social media amplifies comparison.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>02</em>Product vision and positioning</h2>
+      <ul><li><b>Not therapy</b>, and not a replacement for clinicians</li><li><b>Emotional safety, anonymity and validation</b> first</li><li><b>Community-first healing</b>, without streaks, vanity metrics or toxic positivity</li></ul>
+    </section>
+
+    <section class="reveal">
+      <h2><em>03</em>MVP scope: SafeSphere</h2>
+      <div class="two"><div class="box good"><h3>In the MVP</h3><ul><li>An emotional feed (anonymous or named)</li><li>Reflection Pods by interest or life stage</li><li>Emotion-first reactions such as "I feel you" instead of likes</li><li>Strong anonymity and moderation tools</li></ul></div><div class="box fix"><h3>Deliberately left out</h3><ul><li><b>SpiritAnimal</b>, the AI companion</li><li>Reason: meaningful personalisation needs behavioural data and trust built over time</li></ul></div></div>
+    </section>
+
+    <section class="reveal">
+      <h2><em>04</em>Journey, roadmap and cold start</h2>
+      <p>I mapped the full journey from discovery to quiet engagement and emotional sharing, tracking the user's emotional state at each step. The roadmap ran from discovery and MVP through private alpha, public beta and habit formation.</p><p><b>Ignition strategy</b> for the cold-start problem:</p><ul><li>Seed small, trusted micro-communities</li><li>Recruit early champions from tech, MBA and creator circles</li><li>Build feedback loops before scaling growth</li></ul>
+    </section>
+
+    <section class="reveal">
+      <h2><em>05</em>Metrics and monetisation</h2>
+      <div class="metrics"><div class="metric"><b>Leading</b><span>Day-1 activation and early engagement</span></div><div class="metric"><b>Lagging</b><span>30-day retention</span></div><div class="metric"><b>Business</b><span>Monetisation that respects emotional safety</span></div></div><div class="hyp"><div class="h"><i>1</i><p>Premium subscriptions for deeper insights and pods</p></div><div class="h"><i>2</i><p>A mindfulness marketplace with partner products</p></div><div class="h"><i>3</i><p>Offline meetups that bridge digital and real-world connection</p></div></div>
+    </section>
+
+    <section class="reveal">
+      <h2><em>06</em>Risks and mitigation</h2>
+      <p>I identified low engagement, privacy concerns, stigma, moderation failures and monetisation resistance as key risks, with a mitigation plan for each.</p>
+    </section>
+
+    <section class="reveal">
+      <h2>What this project shows</h2>
+      <ul><li>Using storytelling as a product discovery tool</li><li>Turning emotional pain points into thoughtful product decisions</li><li>Balancing empathy, growth, trust and monetisation</li><li>Designing platforms where user well-being comes before metrics</li></ul>
+      <a class="back" href="index.html#work">&larr; Back to all work</a>
+    </section>
+  </div>
+</main>
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Anindya Sharma</span>
+    <a href="mailto:anindyasharma.dem2024@iimu.ac.in">anindyasharma.dem2024@iimu.ac.in</a>
+  </div>
+</footer>
+</body>
+</html>

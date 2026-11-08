@@ -3,144 +3,155 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Netflix User Onboarding: Product Teardown | Anindya Sharma</title>
-<meta name="description" content="A product teardown of Netflix's onboarding flow: persona, step-by-step analysis, friction points, metrics and AI-led ideas to test.">
+<title>Netflix: user onboarding | Anindya Sharma</title>
+<meta name="description" content="How Netflix turns a new visitor into a paying subscriber, and where momentum is gained or lost along the way.">
+<meta name="theme-color" content="#0b0d10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>
+(function () {
+  var d = document, r = d.documentElement;
+  r.classList.add('js');
+
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved) r.setAttribute('data-theme', saved);
+  } catch (e) {}
+
+  d.addEventListener('DOMContentLoaded', function () {
+    /* theme toggle */
+    var btn = d.getElementById('theme');
+    function paint() {
+      if (btn) btn.textContent = r.getAttribute('data-theme') === 'light' ? '\u263E' : '\u2600';
+    }
+    if (btn) {
+      paint();
+      btn.addEventListener('click', function () {
+        var next = r.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        r.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        paint();
+      });
+    }
+
+    /* scroll reveal */
+    var items = d.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    } else {
+      items.forEach(function (el) { el.classList.add('in'); });
+    }
+
+    /* reading progress bar */
+    var bar = d.querySelector('.progress');
+    if (bar) {
+      var update = function () {
+        var h = r.scrollHeight - r.clientHeight;
+        bar.style.width = (h > 0 ? (r.scrollTop / h) * 100 : 0) + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+
+    /* rotating word in hero */
+    var rot = d.getElementById('rot');
+    if (rot && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var words = ['product', 'analytics', 'AI'], i = 0;
+      setInterval(function () {
+        rot.style.opacity = 0;
+        setTimeout(function () {
+          i = (i + 1) % words.length;
+          rot.textContent = words[i];
+          rot.style.opacity = 1;
+        }, 250);
+      }, 2200);
+    }
+  });
+})();
+
+</script>
 </head>
 <body>
-
+<div class="progress"></div>
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="index.html">Anindya Sharma</a>
+    <a class="brand" href="index.html"><i></i>Anindya Sharma</a>
     <ul>
       <li><a href="index.html#work">Work</a></li>
       <li><a href="index.html#experience">Experience</a></li>
       <li><a href="index.html#contact">Contact</a></li>
+      <li><button class="toggle" id="theme" aria-label="Toggle light and dark theme">&#9728;</button></li>
     </ul>
   </div>
 </header>
 
-<main>
+<main class="case">
+  <div class="case-hero">
+    <div class="blob b1"></div>
+    <div class="wrap">
+      <div class="label">Product teardown</div>
+      <h1>Netflix: <span class="grad">user onboarding</span></h1>
+      <p class="lead" style="font-size:1.12rem;max-width:660px">How Netflix turns a new visitor into a paying subscriber, and where momentum is gained or lost along the way.</p>
+      <div class="chips"><span class="chip"><b>Domain</b>Consumer subscription / OTT</span><span class="chip"><b>Focus</b>Onboarding, conversion, friction</span><span class="chip"><b>Skills</b>User analysis, flow mapping, metric design</span></div>
+      <div class="callout"><b>Summary.</b> I walked Netflix's onboarding as a price-sensitive first-time buyer, tracked how the user's mindset changes at each step, and tied each design choice to measurable onboarding metrics.</div>
+    </div>
+  </div>
   <div class="wrap">
 
-    <div class="case-head">
-      <div class="eyebrow">Product teardown</div>
-      <h1>Netflix: User Onboarding</h1>
-      <p style="color:var(--grey-1);font-size:1.1rem;max-width:680px">How Netflix turns a new visitor into a paying subscriber, and where momentum is gained or lost along the way.</p>
-
-      <table class="meta">
-        <tr><td>Domain</td><td>Consumer subscription / OTT</td></tr>
-        <tr><td>Focus</td><td>Onboarding, conversion, friction analysis</td></tr>
-        <tr><td>Skills shown</td><td>User-centric analysis, flow mapping, metric design</td></tr>
-      </table>
-
-      <div class="callout">
-        <b>Summary.</b> I walked Netflix's onboarding as a price-sensitive first-time buyer, tracked how the user's mindset changes at each step, and tied each design choice to measurable onboarding metrics.
-      </div>
-    </div>
-
-    <section>
-      <h2>1. Context: product and goal</h2>
+    <section class="reveal">
+      <h2><em>01</em>Context: product and goal</h2>
       <p>I started with Netflix as a product and a business: its mission, vision and subscription model. The key insight is that onboarding has one job: reduce friction, build excitement, and get the user to complete sign-up with confidence.</p>
     </section>
 
-    <section>
-      <h2>2. Primary user persona</h2>
-      <ul>
-        <li><b>Who:</b> a young first-year undergraduate student</li>
-        <li><b>Constraints:</b> limited income, no credit card</li>
-        <li><b>Mindset:</b> price-sensitive and new to paid OTT platforms</li>
-      </ul>
-      <p>Using this persona kept every onboarding decision grounded in a real user's perspective rather than an abstract one.</p>
+    <section class="reveal">
+      <h2><em>02</em>Primary user persona</h2>
+      <ul><li><b>Who:</b> a young first-year undergraduate student</li><li><b>Constraints:</b> limited income, no credit card</li><li><b>Mindset:</b> price-sensitive and new to paid OTT platforms</li></ul><p>Using this persona kept every onboarding decision grounded in a real user's perspective rather than an abstract one.</p>
     </section>
 
-    <section>
-      <h2>3. Onboarding flow analysis</h2>
-      <div class="flow">
-        <span class="step">Landing screen</span><span class="arrow">→</span>
-        <span class="step">Account creation</span><span class="arrow">→</span>
-        <span class="step">Plan selection</span><span class="arrow">→</span>
-        <span class="step">Payment</span>
-      </div>
-      <p>For every step I evaluated three things:</p>
-      <ul>
-        <li>What the screen is trying to achieve</li>
-        <li>How much effort it asks of the user</li>
-        <li>Whether it builds excitement or causes friction</li>
-      </ul>
-      <p>I also tracked the user's <b>psychological state</b> ("psych level") at each stage, to spot where the experience motivates and where users may feel confused, tired or discouraged.</p>
+    <section class="reveal">
+      <h2><em>03</em>Onboarding flow analysis</h2>
+      <div class="flow"><div class="step"><small>STEP 1</small>Landing screen</div><div class="step"><small>STEP 2</small>Account creation</div><div class="step"><small>STEP 3</small>Plan selection</div><div class="step"><small>STEP 4</small>Payment</div></div><p>For every step I evaluated three things:</p><ul><li>What the screen is trying to achieve</li><li>How much effort it asks of the user</li><li>Whether it builds excitement or causes friction</li></ul><p>I also tracked the user's <b>psychological state</b> ("psych level") at each stage, to spot where the experience motivates and where users may feel confused, tired or discouraged.</p>
     </section>
 
-    <section>
-      <h2>4. What works and what to improve</h2>
-      <div class="two">
-        <div class="box good">
-          <h3>What Netflix does well</h3>
-          <ul>
-            <li><b>Engaging visuals</b> on the first screen</li>
-            <li><b>Minimal information</b> asked upfront</li>
-            <li><b>"Cancel anytime"</b> messaging that removes fear</li>
-            <li><b>Multiple payment options</b>, including UPI, which widens access</li>
-          </ul>
-        </div>
-        <div class="box fix">
-          <h3>Where it can improve</h3>
-          <ul>
-            <li><b>Unnecessary intermediate steps</b> that slow the flow</li>
-            <li><b>Email verification friction</b> at a high-intent moment</li>
-            <li><b>Mergeable screens:</b> combine or remove some to shorten the path</li>
-          </ul>
-        </div>
-      </div>
+    <section class="reveal">
+      <h2><em>04</em>What works and what to improve</h2>
+      <div class="two"><div class="box good"><h3>What Netflix does well</h3><ul><li><b>Engaging visuals</b> on the first screen</li><li><b>Minimal information</b> asked upfront</li><li><b>"Cancel anytime"</b> messaging that removes fear</li><li><b>Multiple payment options</b>, including UPI, which widens access</li></ul></div><div class="box fix"><h3>Where it can improve</h3><ul><li><b>Unnecessary intermediate steps</b> that slow the flow</li><li><b>Email verification friction</b> at a high-intent moment</li><li><b>Mergeable screens:</b> combine or remove some to shorten the path</li></ul></div></div>
     </section>
 
-    <section>
-      <h2>5. Key takeaways</h2>
-      <ul>
-        <li>A strong first impression drives the rest of the flow</li>
-        <li>Reduce resistance at every step of sign-up</li>
-        <li>Flexible payment options expand who can convert</li>
-        <li>An easy exit builds trust and, paradoxically, willingness to start</li>
-      </ul>
+    <section class="reveal">
+      <h2><em>05</em>Key takeaways</h2>
+      <ul><li>A strong first impression drives the rest of the flow</li><li>Reduce resistance at every step of sign-up</li><li>Flexible payment options expand who can convert</li><li>An easy exit builds trust and, paradoxically, willingness to start</li></ul>
     </section>
 
-    <section>
-      <h2>6. Metrics: how onboarding success is measured</h2>
-      <p>I defined a North Star and supporting metrics so UX decisions connect back to business outcomes.</p>
-      <table class="data">
-        <tr><th>Metric</th><th>What it tells you</th></tr>
-        <tr><td>Sign-up rate</td><td>How well the landing experience converts interest</td></tr>
-        <tr><td>Sign-up completion rate</td><td>How much friction exists between start and finish</td></tr>
-        <tr><td>Total users signed up</td><td>The overall volume outcome of onboarding</td></tr>
-      </table>
+    <section class="reveal">
+      <h2><em>06</em>Metrics: how onboarding success is measured</h2>
+      <p>I defined a North Star and supporting metrics so UX decisions connect back to business outcomes.</p><div class="metrics"><div class="metric"><b>Sign-up rate</b><span>How well the landing experience converts interest</span></div><div class="metric"><b>Sign-up completion rate</b><span>How much friction exists between start and finish</span></div><div class="metric"><b>Total users signed up</b><span>The overall volume outcome of onboarding</span></div></div>
     </section>
 
-    <section>
-      <h2>7. Product + AI angle: ideas to test</h2>
-      <div class="callout grey">These are hypotheses that follow from the friction points above. They are not tested results.</div>
-      <ul>
-        <li><b>Defer email verification</b> until after first play, so the user reaches value sooner</li>
-        <li><b>AI-personalised plan suggestion</b> using region, device and payment preference (for example, UPI-first for price-sensitive users in India)</li>
-        <li><b>Taste-based preview before payment:</b> a quick pick of genres or titles that shows a tailored catalogue and builds excitement at the point of commitment</li>
-        <li><b>How I'd test it:</b> A/B test each change, with sign-up completion rate as the primary metric and early retention as a guardrail so conversion gains don't hide weaker intent</li>
-      </ul>
+    <section class="reveal">
+      <h2><em>07</em>Product + AI angle: ideas to test</h2>
+      <div class="callout grey">These are hypotheses that follow from the friction points above. They are not tested results.</div><div class="hyp"><div class="h"><i>H1</i><p><b>Defer email verification</b> until after first play, so the user reaches value sooner.</p></div><div class="h"><i>H2</i><p><b>AI-personalised plan suggestion</b> using region, device and payment preference (for example, UPI-first for price-sensitive users in India).</p></div><div class="h"><i>H3</i><p><b>Taste-based preview before payment:</b> a quick pick of genres or titles that shows a tailored catalogue and builds excitement at the point of commitment.</p></div><div class="h"><i>TEST</i><p><b>How I'd test it:</b> A/B test each change, with sign-up completion rate as the primary metric and early retention as a guardrail so conversion gains don't hide weaker intent.</p></div></div>
     </section>
 
-    <section>
+    <section class="reveal">
       <h2>What this project shows</h2>
       <p>I can break down a real-world product flow, think from the user's mindset, identify friction points, and connect product decisions to business metrics.</p>
-      <a class="back" href="index.html#work">← Back to all work</a>
+      <a class="back" href="index.html#work">&larr; Back to all work</a>
     </section>
-
   </div>
 </main>
-
 <footer>
   <div class="wrap">
-    <span>© 2026 Anindya Sharma</span>
+    <span>&copy; 2026 Anindya Sharma</span>
     <a href="mailto:anindyasharma.dem2024@iimu.ac.in">anindyasharma.dem2024@iimu.ac.in</a>
   </div>
 </footer>
-
 </body>
 </html>

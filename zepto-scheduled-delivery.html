@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zepto: scheduled delivery | Anindya Sharma</title>
+<meta name="description" content="A product requirements document to raise adoption of Scheduled Delivery among Zepto&#x27;s high-frequency users.">
+<meta name="theme-color" content="#0b0d10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>
+(function () {
+  var d = document, r = d.documentElement;
+  r.classList.add('js');
+
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved) r.setAttribute('data-theme', saved);
+  } catch (e) {}
+
+  d.addEventListener('DOMContentLoaded', function () {
+    /* theme toggle */
+    var btn = d.getElementById('theme');
+    function paint() {
+      if (btn) btn.textContent = r.getAttribute('data-theme') === 'light' ? '\u263E' : '\u2600';
+    }
+    if (btn) {
+      paint();
+      btn.addEventListener('click', function () {
+        var next = r.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        r.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        paint();
+      });
+    }
+
+    /* scroll reveal */
+    var items = d.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    } else {
+      items.forEach(function (el) { el.classList.add('in'); });
+    }
+
+    /* reading progress bar */
+    var bar = d.querySelector('.progress');
+    if (bar) {
+      var update = function () {
+        var h = r.scrollHeight - r.clientHeight;
+        bar.style.width = (h > 0 ? (r.scrollTop / h) * 100 : 0) + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+
+    /* rotating word in hero */
+    var rot = d.getElementById('rot');
+    if (rot && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var words = ['product', 'analytics', 'AI'], i = 0;
+      setInterval(function () {
+        rot.style.opacity = 0;
+        setTimeout(function () {
+          i = (i + 1) % words.length;
+          rot.textContent = words[i];
+          rot.style.opacity = 1;
+        }, 250);
+      }, 2200);
+    }
+  });
+})();
+
+</script>
+</head>
+<body>
+<div class="progress"></div>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><i></i>Anindya Sharma</a>
+    <ul>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><button class="toggle" id="theme" aria-label="Toggle light and dark theme">&#9728;</button></li>
+    </ul>
+  </div>
+</header>
+
+<main class="case">
+  <div class="case-hero">
+    <div class="blob b1"></div>
+    <div class="wrap">
+      <div class="label">PRD &middot; Product growth</div>
+      <h1>Zepto: <span class="grad">scheduled delivery</span></h1>
+      <p class="lead" style="font-size:1.12rem;max-width:660px">A product requirements document to raise adoption of Scheduled Delivery among Zepto's high-frequency users.</p>
+      <div class="chips"><span class="chip"><b>Domain</b>Quick commerce</span><span class="chip"><b>Focus</b>Growth, trust, unit economics</span><span class="chip"><b>Skills</b>PRD writing, research, experiment design</span></div>
+      <div class="callout"><b>Summary.</b> Heavy users rarely pick Scheduled Delivery, even though it is cheaper to fulfil. I wrote an experiment-ready MVP PRD built on three pillars, trust, value and flexibility, planned as a Phase-1 A/B launch.</div>
+    </div>
+  </div>
+  <div class="wrap">
+
+    <section class="reveal">
+      <h2><em>01</em>The problem</h2>
+      <p>Heavy users (4+ orders a month) rarely choose Scheduled Delivery. Three root causes:</p><div class="hyp"><div class="h"><i>1</i><p><b>Low trust in punctuality:</b> users fear late delivery.</p></div><div class="h"><i>2</i><p><b>Poor slot visibility:</b> slots are ignored or assumed to be full.</p></div><div class="h"><i>3</i><p><b>No clear value:</b> no visible price advantage over instant delivery.</p></div></div><p>This raises delivery costs, strains peak-hour logistics and limits margin. Competitors such as Amazon Fresh and BigBasket already use guarantees and better slot signals.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>02</em>Goals and success metrics</h2>
+      <div class="metrics"><div class="metric"><b>Adoption</b><span>Scheduled share among heavy users from 7% to 20% in 3 months</span></div><div class="metric"><b>Conversion</b><span>Slot-selection conversion up 25%; cancellations down 15%</span></div><div class="metric"><b>Guardrail</b><span>NPS at or above instant-delivery levels</span></div></div>
+    </section>
+
+    <section class="reveal">
+      <h2><em>03</em>Research and validation</h2>
+      <ul><li><b>User surveys:</b> high punctuality anxiety, low awareness of savings</li><li><b>App analytics:</b> only 9% of heavy-user orders used scheduled slots despite healthy availability</li><li><b>User interviews:</b> fears about lateness, no edit option, hidden slots</li><li><b>Competitive benchmarking:</b> guarantees and price cues lift adoption elsewhere</li></ul>
+    </section>
+
+    <section class="reveal">
+      <h2><em>04</em>Solution: three pillars</h2>
+      <div class="hyp"><div class="h"><i>TRUST</i><p>An <b>"On-Time or &#8377;30 Back"</b> guarantee on slot cards, with automatic wallet credit if the SLA is breached.</p></div><div class="h"><i>VALUE</i><p>A <b>"&#8377;20 cheaper than instant"</b> badge using dynamic pricing logic, shown at the moment of choice.</p></div><div class="h"><i>FLEX</i><p><b>Edit the slot</b> until 11 PM the previous day, reducing anxiety about rigid planning.</p></div></div>
+    </section>
+
+    <section class="reveal">
+      <h2><em>05</em>Experience and rollout</h2>
+      <div class="flow"><div class="step"><small>STEP 1</small>Browse as usual</div><div class="step"><small>STEP 2</small>Discover slots clearly</div><div class="step"><small>STEP 3</small>See trust and savings cues</div><div class="step"><small>STEP 4</small>Track ETA or edit slot</div></div><p>Components: enhanced slot cards, an edit-slot screen, an SLA tracker service and automated wallet credits. The plan covered backend and API readiness, mobile QA, rider training and support readiness, with a <b>Phase-1 A/B test in Bengaluru</b>.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>06</em>Risks and future scope</h2>
+      <p>Risks: SLA cost overruns, discount abuse and operational complexity. Mitigations: limit promos to low-traffic slots and cap slot edits. Next iterations: cart-level nudges, contactless drop and personalised slot discounts.</p>
+    </section>
+
+    <section class="reveal">
+      <h2>What this project shows</h2>
+      <ul><li>Spotting high-impact growth opportunities</li><li>Using research to drive product decisions</li><li>Balancing user trust, cost efficiency and operations</li><li>Designing measurable, experiment-ready solutions</li></ul>
+      <a class="back" href="index.html#work">&larr; Back to all work</a>
+    </section>
+  </div>
+</main>
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Anindya Sharma</span>
+    <a href="mailto:anindyasharma.dem2024@iimu.ac.in">anindyasharma.dem2024@iimu.ac.in</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Club Mahindra: app teardown | Anindya Sharma</title>
+<meta name="description" content="A complete teardown of the Club Mahindra mobile app from a user, business and product-strategy perspective.">
+<meta name="theme-color" content="#0b0d10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>
+(function () {
+  var d = document, r = d.documentElement;
+  r.classList.add('js');
+
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved) r.setAttribute('data-theme', saved);
+  } catch (e) {}
+
+  d.addEventListener('DOMContentLoaded', function () {
+    /* theme toggle */
+    var btn = d.getElementById('theme');
+    function paint() {
+      if (btn) btn.textContent = r.getAttribute('data-theme') === 'light' ? '\u263E' : '\u2600';
+    }
+    if (btn) {
+      paint();
+      btn.addEventListener('click', function () {
+        var next = r.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        r.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        paint();
+      });
+    }
+
+    /* scroll reveal */
+    var items = d.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    } else {
+      items.forEach(function (el) { el.classList.add('in'); });
+    }
+
+    /* reading progress bar */
+    var bar = d.querySelector('.progress');
+    if (bar) {
+      var update = function () {
+        var h = r.scrollHeight - r.clientHeight;
+        bar.style.width = (h > 0 ? (r.scrollTop / h) * 100 : 0) + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+
+    /* rotating word in hero */
+    var rot = d.getElementById('rot');
+    if (rot && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var words = ['product', 'analytics', 'AI'], i = 0;
+      setInterval(function () {
+        rot.style.opacity = 0;
+        setTimeout(function () {
+          i = (i + 1) % words.length;
+          rot.textContent = words[i];
+          rot.style.opacity = 1;
+        }, 250);
+      }, 2200);
+    }
+  });
+})();
+
+</script>
+</head>
+<body>
+<div class="progress"></div>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><i></i>Anindya Sharma</a>
+    <ul>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><button class="toggle" id="theme" aria-label="Toggle light and dark theme">&#9728;</button></li>
+    </ul>
+  </div>
+</header>
+
+<main class="case">
+  <div class="case-hero">
+    <div class="blob b1"></div>
+    <div class="wrap">
+      <div class="label">Product teardown</div>
+      <h1>Club Mahindra: <span class="grad">app teardown</span></h1>
+      <p class="lead" style="font-size:1.12rem;max-width:660px">A complete teardown of the Club Mahindra mobile app from a user, business and product-strategy perspective.</p>
+      <div class="chips"><span class="chip"><b>Domain</b>Vacation ownership / travel</span><span class="chip"><b>Focus</b>UX, conversion, retention</span><span class="chip"><b>Skills</b>Business analysis, personas, UX critique, strategy</span></div>
+      <div class="callout"><b>Summary.</b> I studied how Club Mahindra makes money, who its users are and how the app serves them, then proposed practical UX fixes and product-level strategy to lift engagement, conversion and retention.</div>
+    </div>
+  </div>
+  <div class="wrap">
+
+    <section class="reveal">
+      <h2><em>01</em>Business and product context</h2>
+      <p>I started with the company background, product offering and business model: how Club Mahindra operates as a vacation ownership (timeshare) business, its revenue streams, membership structure and long-term value proposition for families. This clarified the business goals the app has to support.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>02</em>Market position and competitors</h2>
+      <p>I compared Club Mahindra with Sterling Holidays, Taj Hotels, ITC Hotels and Hilton Grand Vacations to see how it differentiates itself and where it stands on flexibility, pricing and experience.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>03</em>User segments and personas</h2>
+      <p>I defined segments by age, income, travel behaviour and needs, and focused on three groups, mapping each one's goals, pain points and expectations from the app:</p><ul><li>Family-oriented travellers</li><li>Senior citizens</li><li>Young professionals</li></ul>
+    </section>
+
+    <section class="reveal">
+      <h2><em>04</em>End-to-end app experience</h2>
+      <div class="flow"><div class="step"><small>STEP 1</small>Onboarding</div><div class="step"><small>STEP 2</small>Membership discovery</div><div class="step"><small>STEP 3</small>Booking</div><div class="step"><small>STEP 4</small>Offers and loyalty</div></div><p>I reviewed the app screen by screen, including resort information pages and referral features. For every major screen I documented what works, what does not, and where users may feel confused, disengaged or blocked.</p><p>Recurring UX issues: <b>excessive text</b>, <b>unclear CTAs</b>, <b>little immersive content</b>, <b>limited personalisation</b>, and missed chances to excite non-members and convert them.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><em>05</em>Product improvements</h2>
+      <ul><li>Better onboarding and clearer CTAs</li><li>Videos, virtual tours or 3D views to improve resort discovery</li><li>Personalisation using user data</li><li>Making members feel more valued through better rewards and experiences</li><li>More flexible membership and booking options</li></ul>
+    </section>
+
+    <section class="reveal">
+      <h2><em>06</em>Strategic recommendations</h2>
+      <div class="hyp"><div class="h"><i>AI</i><p>Improve the digital experience using AI.</p></div><div class="h"><i>REW</i><p>Expand rewards beyond vacations.</p></div><div class="h"><i>FLEX</i><p>Introduce flexible memberships.</p></div><div class="h"><i>REACH</i><p>Use influencer content to reach new audiences.</p></div><div class="h"><i>DATA</i><p>Use data-driven personalisation to increase engagement and retention.</p></div></div>
+    </section>
+
+    <section class="reveal">
+      <h2>What this project shows</h2>
+      <p>How I approach product problems: understand the business, empathise with users, analyse the real experience, and suggest improvements that balance user needs with business impact.</p>
+      <a class="back" href="index.html#work">&larr; Back to all work</a>
+    </section>
+  </div>
+</main>
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Anindya Sharma</span>
+    <a href="mailto:anindyasharma.dem2024@iimu.ac.in">anindyasharma.dem2024@iimu.ac.in</a>
+  </div>
+</footer>
+</body>
+</html>

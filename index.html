@@ -5,18 +5,90 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anindya Sharma | Product, Analytics &amp; AI</title>
 <meta name="description" content="Portfolio of Anindya Sharma: product teardowns, analytics and AI agent projects. Senior Associate at PwC India; IIM Udaipur MBA; NIT Silchar engineer.">
+<meta name="theme-color" content="#0b0d10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>
+(function () {
+  var d = document, r = d.documentElement;
+  r.classList.add('js');
+
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved) r.setAttribute('data-theme', saved);
+  } catch (e) {}
+
+  d.addEventListener('DOMContentLoaded', function () {
+    /* theme toggle */
+    var btn = d.getElementById('theme');
+    function paint() {
+      if (btn) btn.textContent = r.getAttribute('data-theme') === 'light' ? '\u263E' : '\u2600';
+    }
+    if (btn) {
+      paint();
+      btn.addEventListener('click', function () {
+        var next = r.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        r.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        paint();
+      });
+    }
+
+    /* scroll reveal */
+    var items = d.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    } else {
+      items.forEach(function (el) { el.classList.add('in'); });
+    }
+
+    /* reading progress bar */
+    var bar = d.querySelector('.progress');
+    if (bar) {
+      var update = function () {
+        var h = r.scrollHeight - r.clientHeight;
+        bar.style.width = (h > 0 ? (r.scrollTop / h) * 100 : 0) + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+
+    /* rotating word in hero */
+    var rot = d.getElementById('rot');
+    if (rot && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var words = ['product', 'analytics', 'AI'], i = 0;
+      setInterval(function () {
+        rot.style.opacity = 0;
+        setTimeout(function () {
+          i = (i + 1) % words.length;
+          rot.textContent = words[i];
+          rot.style.opacity = 1;
+        }, 250);
+      }, 2200);
+    }
+  });
+})();
+
+</script>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="#top">Anindya Sharma</a>
+    <a class="brand" href="#top"><i></i>Anindya Sharma</a>
     <ul>
       <li><a href="#work">Work</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
+      <li><button class="toggle" id="theme" aria-label="Toggle light and dark theme">&#9728;</button></li>
     </ul>
   </div>
 </header>
@@ -24,97 +96,140 @@
 <main id="top">
 
   <div class="hero">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
     <div class="wrap">
-      <div class="eyebrow">Senior Associate, PwC India</div>
-      <h1>Product, Analytics &amp; AI</h1>
-      <p class="lead">I break down products from the user's point of view, connect design choices to business metrics, and build AI agents that take over repetitive knowledge work.</p>
+      <div class="pill"><span class="dot"></span> Senior Associate at PwC India · Open to product, analytics &amp; AI conversations</div>
+      <h1>Thinking in <span class="grad" id="rot">product</span>,<br>built to <span class="grad">measure and automate.</span></h1>
+      <p class="lead">I break products down from the user's point of view, connect design choices to business metrics, and build AI agents that take over repetitive knowledge work.</p>
       <div class="btns">
-        <a class="btn primary" href="netflix-onboarding.html">Read the Netflix teardown</a>
+        <a class="btn primary" href="netflix-onboarding.html">Read the Netflix teardown &rarr;</a>
         <a class="btn ghost" href="#contact">Get in touch</a>
       </div>
       <div class="stats">
         <div class="stat"><b>3.9+ years</b><span>Consulting, analytics and utilities</span></div>
         <div class="stat"><b>IIM Udaipur</b><span>MBA, general management</span></div>
         <div class="stat"><b>NIT Silchar</b><span>Engineering background</span></div>
-        <div class="stat"><b>GATE · CFA L1</b><span>GATE top 2 percentile; CFA Level 1 cleared</span></div>
+        <div class="stat"><b>GATE &middot; CFA L1</b><span>GATE top 2 percentile; CFA Level 1 cleared</span></div>
       </div>
+    </div>
+  </div>
+
+  <div class="strip" aria-hidden="true">
+    <div class="track">
+      <span>Product teardowns</span><span>Funnel and onboarding analysis</span><span>Metric design</span><span>PRDs</span><span>AI agents</span><span>MIS implementation</span><span>Cost benchmarking</span><span>Consulting delivery</span>
+      <span>Product teardowns</span><span>Funnel and onboarding analysis</span><span>Metric design</span><span>PRDs</span><span>AI agents</span><span>MIS implementation</span><span>Cost benchmarking</span><span>Consulting delivery</span>
     </div>
   </div>
 
   <section id="work">
     <div class="wrap">
-      <div class="section-label">Selected work</div>
-      <h2>Projects</h2>
+      <div class="label reveal">Selected work</div>
+      <h2 class="reveal">Projects</h2>
+      <p class="sub reveal">Teardowns, PRDs and product concepts that show how I think, from user mindset to metrics.</p>
       <div class="grid">
-        <a class="card" href="netflix-onboarding.html">
-          <span class="tag">Product teardown</span>
+        <a class="card feature reveal" href="netflix-onboarding.html">
+          <span class="tag">PRODUCT TEARDOWN</span>
           <h3>Netflix: user onboarding</h3>
-          <p>A step-by-step teardown of how Netflix turns a visitor into a subscriber, seen through a price-sensitive student's eyes, with friction points and metrics.</p>
-          <div class="more">Read the case study →</div>
+          <p>A step-by-step teardown of how Netflix turns a visitor into a subscriber, seen through a price-sensitive student's eyes, with friction points, success metrics and AI-led ideas to test.</p>
+          <div class="more">Read the case study &rarr;</div>
         </a>
-        <div class="card">
-          <span class="tag">AI agents</span>
+        <a class="card reveal" href="zepto-scheduled-delivery.html">
+          <span class="tag">PRD &middot; GROWTH</span>
+          <h3>Zepto: scheduled delivery</h3>
+          <p>An experiment-ready PRD to lift scheduled-delivery adoption among heavy users through trust guarantees, visible savings and slot flexibility.</p>
+          <div class="more">Read the case study &rarr;</div>
+        </a>
+        <a class="card reveal" href="customate.html">
+          <span class="tag">AI PRODUCT &middot; B2B</span>
+          <h3>CustoMate: AI for customs</h3>
+          <p>An AI-powered platform concept that automates customs documentation and compliance checks for importers, exporters and logistics teams.</p>
+          <div class="more">Read the case study &rarr;</div>
+        </a>
+        <a class="card reveal" href="emosphere.html">
+          <span class="tag">PRODUCT DESIGN</span>
+          <h3>EmoSphere: wellness social</h3>
+          <p>A community-first, emotionally safe social platform for young professionals, from story-led discovery to MVP scope, cold start and monetisation.</p>
+          <div class="more">Read the case study &rarr;</div>
+        </a>
+        <a class="card reveal" href="club-mahindra-teardown.html">
+          <span class="tag">PRODUCT TEARDOWN</span>
+          <h3>Club Mahindra: app teardown</h3>
+          <p>A full teardown of the Club Mahindra app: business model, competitors, personas, screen-by-screen UX critique and strategic recommendations.</p>
+          <div class="more">Read the case study &rarr;</div>
+        </a>
+        <div class="card reveal">
+          <span class="tag muted">GROWTH STRATEGY</span>
+          <h3>Zomato: growth in Tier 2 &amp; 3 cities</h3>
+          <p>A product-led growth strategy for Visakhapatnam that tackles decision fatigue with mood-based and discovery-driven recommendations for tourists, students and professionals.</p>
+          <div class="more soon">Full write-up coming soon</div>
+        </div>
+        <div class="card reveal">
+          <span class="tag muted">DATA &amp; ANALYTICS</span>
+          <h3>ABC Corp: data platform transformation</h3>
+          <p>An end-to-end data and analytics transformation for a global car rental company: a scalable cloud data platform to break silos and enable real-time insights and ML.</p>
+          <div class="more soon">Full write-up coming soon</div>
+        </div>
+        <div class="card reveal">
+          <span class="tag muted">AI AGENTS</span>
           <h3>Bid-evaluation and job-search agents</h3>
           <p>Agents I built to handle repetitive evaluation and application work, from reading documents to drafting tailored outputs.</p>
-          <div class="more" style="color:var(--grey-1)">Write-up in progress</div>
-        </div>
-        <div class="card">
-          <span class="tag">Analytics</span>
-          <h3>Power BI projects</h3>
-          <p>Dashboards built with a finance-analytics lens, turning raw numbers into decisions.</p>
-          <div class="more" style="color:var(--grey-1)">Write-up in progress</div>
+          <div class="more soon">Full write-up coming soon</div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="experience">
+  <section id="experience" style="background:var(--bg2)">
     <div class="wrap">
-      <div class="section-label">Experience</div>
-      <h2>Where I've worked</h2>
-
-      <div class="role">
-        <div>
-          <h3>Senior Associate · PwC India</h3>
+      <div class="label reveal">Experience</div>
+      <h2 class="reveal">Where I've worked</h2>
+      <div class="tl">
+        <div class="item reveal">
+          <div class="when">JUN 2026 &ndash; PRESENT</div>
+          <h3>Senior Associate &middot; PwC India</h3>
           <p>Consulting engagements across digital and analytics work. Based in Mumbai.</p>
         </div>
-        <div class="when">Jun 2026 – Present</div>
-      </div>
-
-      <div class="role">
-        <div>
-          <h3>Associate · EY India LLP</h3>
+        <div class="item reveal">
+          <div class="when">AUG 2025 &ndash; FEB 2026</div>
+          <h3>Associate &middot; EY India LLP</h3>
           <p>MIS implementation and software build for an Indian client; cost benchmarking for an international client.</p>
         </div>
-        <div class="when">Aug 2025 – Feb 2026</div>
-      </div>
-
-      <div class="role">
-        <div>
-          <h3>Assistant Manager, IT &amp; Analytics · APDCL</h3>
+        <div class="item reveal">
+          <div class="when">MAR 2021 &ndash; MAR 2024</div>
+          <h3>Assistant Manager, IT &amp; Analytics &middot; APDCL</h3>
           <p>IT and analytics work in the power distribution sector, including a project under the Revamped Distribution Sector Scheme (RDSS).</p>
         </div>
-        <div class="when">Mar 2021 – Mar 2024</div>
       </div>
     </div>
   </section>
 
   <section id="about">
-    <div class="wrap">
-      <div class="section-label">About</div>
-      <h2>How I think about products</h2>
-      <p>I started in engineering at NIT Silchar, spent three years in IT and analytics at a power utility, and then moved into management and consulting through an MBA at IIM Udaipur. That path shapes how I work: start from the user, trace how the system behaves, and measure whether a change actually helped.</p>
-      <p>Right now I'm focused on product and AI work, where analytical thinking, metrics and automation meet.</p>
+    <div class="wrap about">
+      <div>
+        <div class="label reveal">About</div>
+        <h2 class="reveal">How I think about products</h2>
+        <p class="reveal">I started in engineering at NIT Silchar, spent three years in IT and analytics at a power utility, and then moved into management and consulting through an MBA at IIM Udaipur.</p>
+        <p class="reveal">That path shapes how I work: start from the user, trace how the system behaves, and measure whether a change actually helped. Right now I'm focused on product and AI work, where analytical thinking, metrics and automation meet.</p>
+      </div>
+      <div class="facts reveal">
+        <div class="fact"><span>Currently</span><b>Senior Associate, PwC India</b></div>
+        <div class="fact"><span>Education</span><b>MBA, IIM Udaipur<br>Engineering, NIT Silchar</b></div>
+        <div class="fact"><span>Credentials</span><b>GATE top 2 percentile<br>CFA Level 1 cleared</b></div>
+        <div class="fact"><span>Focus</span><b>Product &middot; Analytics &middot; AI</b></div>
+      </div>
     </div>
   </section>
 
-  <section id="contact">
+  <section id="contact" style="padding-top:20px">
     <div class="wrap">
-      <div class="section-label">Contact</div>
-      <h2>Let's talk</h2>
-      <p>I'm open to conversations about product, analytics and AI roles.</p>
-      <div class="btns">
-        <a class="btn primary" href="mailto:anindyasharma.dem2024@iimu.ac.in">anindyasharma.dem2024@iimu.ac.in</a>
+      <div class="cta reveal">
+        <div class="label">Contact</div>
+        <h2>Let's build something useful.</h2>
+        <p>I'm open to conversations about product, analytics and AI roles.</p>
+        <div class="btns">
+          <a class="btn primary" href="mailto:anindyasharma.dem2024@iimu.ac.in">anindyasharma.dem2024@iimu.ac.in</a>
+        </div>
       </div>
     </div>
   </section>
@@ -123,7 +238,7 @@
 
 <footer>
   <div class="wrap">
-    <span>© 2026 Anindya Sharma</span>
+    <span>&copy; 2026 Anindya Sharma</span>
     <span>Client details are intentionally omitted from the work shown here.</span>
   </div>
 </footer>
